@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nokia Snake - Retro Classic</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="nokia-container">
+        <div class="phone-case">
+            <div class="speaker-grill"></div>
+            <div class="screen-border">
+                <div class="screen">
+                    <div class="stats">
+                        <span id="score">0000</span>
+                        <span id="high-score">HI: 0000</span>
+                    </div>
+                    <canvas id="gameCanvas"></canvas>
+                    <div class="message-overlay" id="overlay">
+                        <h1 id="overlay-text">SNAKE</h1>
+                        <p id="overlay-subtext">Press Any Key</p>
+                    </div>
+                </div>
+            </div>
+            <div class="branding">NOKIA</div>
+            <div class="keypad">
+                <div class="soft-keys">
+                    <button class="btn-soft"></button>
+                    <button class="btn-soft"></button>
+                </div>
+                <div class="directional-keys">
+                    <button class="btn-key" id="upBtn">▲</button>
+                    <div class="horizontal-keys">
+                        <button class="btn-key" id="leftBtn">◀</button>
+                        <button class="btn-key center">2</button>
+                        <button class="btn-key" id="rightBtn">▶</button>
+                    </div>
+                    <button class="btn-key" id="downBtn">▼</button>
+                </div>
+                <div class="number-keys">
+                    <button class="btn-key">1</button><button class="btn-key">2</button><button
+                        class="btn-key">3</button>
+                    <button class="btn-key">4</button><button class="btn-key">5</button><button
+                        class="btn-key">6</button>
+                    <button class="btn-key">7</button><button class="btn-key">8</button><button
+                        class="btn-key">9</button>
+                    <button class="btn-key">*</button><button class="btn-key">0</button><button
+                        class="btn-key">#</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

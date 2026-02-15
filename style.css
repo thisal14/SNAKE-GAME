@@ -1,0 +1,186 @@
+:root {
+    --nokia-green: #9ead86;
+    --nokia-dark: #2b3a1a;
+    --phone-blue: #1b263b;
+    --phone-gray: #c0c0c0;
+    --btn-dark: #333;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #222;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'VT323', monospace;
+}
+
+.nokia-container {
+    perspective: 1000px;
+}
+
+.phone-case {
+    background: var(--phone-blue);
+    width: 320px;
+    padding: 20px;
+    border-radius: 40px 40px 100px 100px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    border: 4px solid #0d1b2a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.speaker-grill {
+    width: 60px;
+    height: 8px;
+    background: #000;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.screen-border {
+    background: #555;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #333;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.screen {
+    background: var(--nokia-green);
+    width: 100%;
+    height: 240px;
+    position: relative;
+    border: 3px solid #7a8a68;
+    overflow: hidden;
+    image-rendering: pixelated;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+    color: var(--nokia-dark);
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--nokia-dark);
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100%;
+    height: calc(100% - 30px);
+    margin-top: 30px;
+}
+
+.message-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--nokia-dark);
+    width: 100%;
+}
+
+#overlay h1 {
+    font-size: 3rem;
+    letter-spacing: 5px;
+    margin-bottom: 10px;
+}
+
+#overlay p {
+    font-size: 1.5rem;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.branding {
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+    margin: 5px 0 15px;
+}
+
+.keypad {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.soft-keys {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-soft {
+    width: 60px;
+    height: 15px;
+    background: silver;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.directional-keys {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.horizontal-keys {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-key {
+    width: 50px;
+    height: 35px;
+    background: #3a4750;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px #222;
+    transition: all 0.1s;
+}
+
+.btn-key:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px #222;
+}
+
+.number-keys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 0 20px;
+}
+
+.number-keys .btn-key {
+    height: 30px;
+}
+
+/* Snake and Food colors on canvas will be handled in JS, 
+   but we use var(--nokia-dark) for them */

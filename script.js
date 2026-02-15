@@ -185,6 +185,51 @@ document.getElementById('downBtn').addEventListener('click', () => { if (directi
 document.getElementById('leftBtn').addEventListener('click', () => { if (direction !== 'right') nextDirection = 'left'; });
 document.getElementById('rightBtn').addEventListener('click', () => { if (direction !== 'left') nextDirection = 'right'; });
 
+// Touch Swipe Detection
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+
+    if (!gameRunning) startGame();
+    // Prevent scrolling
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchmove', (e) => {
+    // Prevent scrolling
+    e.preventDefault();
+}, { passive: false });
+
+canvas.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+
+    const dx = touchEndX - touchStartX;
+    const dy = touchEndY - touchStartY;
+
+    // Minimum distance to be considered a swipe
+    const minDistance = 30;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        // Horizontal swipe
+        if (Math.abs(dx) > minDistance) {
+            if (dx > 0 && direction !== 'left') nextDirection = 'right';
+            else if (dx < 0 && direction !== 'right') nextDirection = 'left';
+        }
+    } else {
+        // Vertical swipe
+        if (Math.abs(dy) > minDistance) {
+            if (dy > 0 && direction !== 'up') nextDirection = 'down';
+            else if (dy < 0 && direction !== 'down') nextDirection = 'up';
+        }
+    }
+
+    e.preventDefault();
+}, { passive: false });
+
 // Initial Draw
 initGame();
 draw();

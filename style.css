@@ -182,5 +182,32 @@ body {
     height: 30px;
 }
 
-/* Snake and Food colors on canvas will be handled in JS, 
-   but we use var(--nokia-dark) for them */
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .phone-case {
+        transform: scale(0.9);
+        margin-top: -20px;
+    }
+}
+
+@media (max-height: 700px) {
+    .phone-case {
+        transform: scale(0.85);
+        margin-top: -30px;
+    }
+}
+
+@media (max-height: 600px) {
+    .phone-case {
+        transform: scale(0.75);
+        margin-top: -50px;
+    }
+}
+
+/* Ensure the screen stays centered and sharp */
+.nokia-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}

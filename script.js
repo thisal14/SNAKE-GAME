@@ -5,16 +5,35 @@ const highScoreElement = document.getElementById('high-score');
 const overlay = document.getElementById('overlay');
 const overlayText = document.getElementById('overlay-text');
 const overlaySubtext = document.getElementById('overlay-subtext');
+const speedDisplay = document.getElementById('speed-display');
 
 // Game Constants
-const GRID_SIZE = 15;
-const CELL_SIZE = 10;
-const CANVAS_WIDTH = 200; // Original Low-res feel
-const CANVAS_HEIGHT = 160;
+const GRID_COLS = 20; // Fixed number of columns for consistency
+const GRID_ROWS = 20; // Fixed number of rows
+let CELL_SIZE = 10;   // Calculated dynamically
+// Set canvas size dynamically and calculate optimal cell size
+function resizeCanvas() {
+    const screenArea = document.querySelector('.screen-area');
+    const width = screenArea.clientWidth;
+    const height = screenArea.clientHeight;
 
-// Set actual canvas size
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
+    // Use the smaller dimension to determine cell size and keep grid square
+    CELL_SIZE = Math.floor(Math.min(width / GRID_COLS, height / GRID_ROWS));
+
+    canvas.width = GRID_COLS * CELL_SIZE;
+    canvas.height = GRID_ROWS * CELL_SIZE;
+
+    // Center the canvas if it's smaller than the container
+    canvas.style.marginTop = `${(height - canvas.height) / 2}px`;
+    canvas.style.marginLeft = `${(width - canvas.width) / 2}px`;
+}
+
+window.addEventListener('resize', () => {
+    resizeCanvas();
+    draw();
+});
+
+resizeCanvas();
 
 // Game State
 let snake = [];
@@ -24,7 +43,9 @@ let nextDirection = 'right';
 let score = 0;
 let highScore = localStorage.getItem('snakeHighScore') || 0;
 let gameRunning = false;
-let gameSpeed = 150;
+let speedLevel = 1;
+const speedMap = { 0: 250, 1: 150, 2: 100, 3: 60 };
+let gameSpeed = speedMap[speedLevel];
 let gameLoopId = null;
 
 highScoreElement.innerText = `HI: ${String(highScore).padStart(4, '0')}`;
@@ -38,7 +59,7 @@ function initGame() {
     direction = 'right';
     nextDirection = 'right';
     score = 0;
-    gameSpeed = 150;
+    gameSpeed = speedMap[speedLevel];
     updateScore();
     createFood();
 }
@@ -49,8 +70,8 @@ function updateScore() {
 
 function createFood() {
     food = {
-        x: Math.floor(Math.random() * (CANVAS_WIDTH / CELL_SIZE)),
-        y: Math.floor(Math.random() * (CANVAS_HEIGHT / CELL_SIZE))
+        x: Math.floor(Math.random() * GRID_COLS),
+        y: Math.floor(Math.random() * GRID_ROWS)
     };
     // Don't spawn food on snake body
     for (let segment of snake) {
@@ -63,7 +84,7 @@ function createFood() {
 
 function draw() {
     // Clear canvas
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw snake
     ctx.fillStyle = '#2b3a1a'; // Nokia Dark Green
@@ -111,8 +132,8 @@ function move() {
     if (direction === 'right') head.x++;
 
     // Wall collision
-    if (head.x < 0 || head.x >= CANVAS_WIDTH / CELL_SIZE ||
-        head.y < 0 || head.y >= CANVAS_HEIGHT / CELL_SIZE) {
+    if (head.x < 0 || head.x >= GRID_COLS ||
+        head.y < 0 || head.y >= GRID_ROWS) {
         gameOver();
         return;
     }
@@ -132,8 +153,8 @@ function move() {
         score += 10;
         updateScore();
         createFood();
-        // Speed up slightly
-        if (gameSpeed > 60) gameSpeed -= 2;
+        // Speed up slightly within level limits
+        if (gameSpeed > speedMap[speedLevel] - 40) gameSpeed -= 2;
     } else {
         snake.pop();
     }
@@ -155,7 +176,7 @@ function gameOver() {
     }
     overlay.style.display = 'block';
     overlayText.innerText = 'GAME OVER';
-    overlaySubtext.innerText = 'Press 5 or Space to Restart';
+    overlaySubtext.innerText = 'Tap OK to Restart';
 }
 
 function startGame() {
@@ -184,6 +205,19 @@ document.getElementById('upBtn').addEventListener('click', () => { if (direction
 document.getElementById('downBtn').addEventListener('click', () => { if (direction !== 'up') nextDirection = 'down'; });
 document.getElementById('leftBtn').addEventListener('click', () => { if (direction !== 'right') nextDirection = 'left'; });
 document.getElementById('rightBtn').addEventListener('click', () => { if (direction !== 'left') nextDirection = 'right'; });
+document.getElementById('okBtn').addEventListener('click', startGame);
+
+function changeSpeed(delta) {
+    const newSpeed = speedLevel + delta;
+    if (newSpeed >= 0 && newSpeed <= 3) {
+        speedLevel = newSpeed;
+        gameSpeed = speedMap[speedLevel];
+        speedDisplay.innerText = `SPD: ${speedLevel}`;
+    }
+}
+
+document.getElementById('speedUpBtn').addEventListener('click', () => changeSpeed(1));
+document.getElementById('speedDownBtn').addEventListener('click', () => changeSpeed(-1));
 
 // Touch Swipe Detection
 let touchStartX = 0;

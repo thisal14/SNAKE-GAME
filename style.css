@@ -1,87 +1,79 @@
 :root {
     --nokia-green: #9ead86;
     --nokia-dark: #2b3a1a;
-    --phone-blue: #1b263b;
-    --phone-gray: #c0c0c0;
-    --btn-dark: #333;
+    --bg-dark: #121212;
+    --accent-blue: #007bff;
+    --btn-bg: #333;
+    --btn-text: #fff;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 body {
-    background: #222;
+    background: var(--bg-dark);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    font-family: 'VT323', monospace;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    touch-action: none;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #fff;
 }
 
-.nokia-container {
-    perspective: 1000px;
-}
-
-.phone-case {
-    background: var(--phone-blue);
-    width: 320px;
-    padding: 20px;
-    border-radius: 40px 40px 100px 100px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    border: 4px solid #0d1b2a;
+.game-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-}
-
-.speaker-grill {
-    width: 60px;
-    height: 8px;
-    background: #000;
-    border-radius: 4px;
-    margin-bottom: 20px;
-}
-
-.screen-border {
-    background: #555;
-    padding: 10px;
-    border-radius: 10px;
-    border: 2px solid #333;
-    margin-bottom: 10px;
     width: 100%;
-}
-
-.screen {
-    background: var(--nokia-green);
-    width: 100%;
-    height: 240px;
+    height: 100%;
+    max-width: 500px;
+    margin: 0 auto;
     position: relative;
-    border: 3px solid #7a8a68;
+}
+
+.screen-area {
+    flex: 1;
+    background: var(--nokia-green);
+    position: relative;
+    border: 8px solid #222;
+    border-radius: 12px;
+    margin: 8px;
     overflow: hidden;
-    image-rendering: pixelated;
+    box-shadow: inset var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .stats {
     display: flex;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 8px 12px;
     color: var(--nokia-dark);
     font-size: 1.2rem;
-    border-bottom: 1px solid var(--nokia-dark);
+    font-family: 'VT323', monospace;
+    border-bottom: 2px solid var(--nokia-dark);
     position: absolute;
     top: 0;
+    left: 0;
     width: 100%;
     z-index: 10;
+    background: rgba(158, 173, 134, 0.9);
 }
 
 #gameCanvas {
     display: block;
-    width: 100%;
-    height: calc(100% - 30px);
-    margin-top: 30px;
+    image-rendering: pixelated;
+    background: var(--nokia-green);
 }
 
 .message-overlay {
@@ -91,17 +83,22 @@ body {
     transform: translate(-50%, -50%);
     text-align: center;
     color: var(--nokia-dark);
-    width: 100%;
+    width: calc(100% - 40px);
+    background: rgba(158, 173, 134, 0.95);
+    padding: 20px;
+    border: 2px solid var(--nokia-dark);
+    z-index: 20;
+    font-family: 'VT323', monospace;
 }
 
-#overlay h1 {
-    font-size: 3rem;
-    letter-spacing: 5px;
-    margin-bottom: 10px;
+#overlay-text {
+    font-size: 3.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 5px;
 }
 
-#overlay p {
-    font-size: 1.5rem;
+#overlay-subtext {
+    font-size: 1.8rem;
     animation: blink 1s infinite;
 }
 
@@ -111,103 +108,131 @@ body {
     }
 }
 
-.branding {
-    color: #fff;
-    font-weight: bold;
-    letter-spacing: 2px;
-    font-size: 1.2rem;
-    margin: 5px 0 15px;
-}
-
-.keypad {
-    width: 100%;
+.controls {
+    flex: 0 0 45%;
+    max-height: 400px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #1a1a1a;
+    border-top: 2px solid #333;
+    gap: 12px;
+}
+
+.utility-controls {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 5px;
+}
+
+.d-pad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.middle-row {
+    display: flex;
+    align-items: center;
     gap: 15px;
 }
 
-.soft-keys {
-    display: flex;
-    justify-content: space-around;
-}
-
-.btn-soft {
-    width: 60px;
-    height: 15px;
-    background: silver;
+.ctrl-btn {
+    width: 75px;
+    height: 75px;
+    background: var(--btn-bg);
     border: none;
-    border-radius: 5px;
+    border-radius: 50%;
+    color: var(--btn-text);
+    font-size: 2rem;
     cursor: pointer;
-}
-
-.directional-keys {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-}
-
-.horizontal-keys {
-    display: flex;
-    gap: 5px;
-}
-
-.btn-key {
-    width: 50px;
-    height: 35px;
-    background: #3a4750;
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 4px #222;
-    transition: all 0.1s;
-}
-
-.btn-key:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px #222;
-}
-
-.number-keys {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    padding: 0 20px;
-}
-
-.number-keys .btn-key {
-    height: 30px;
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 480px) {
-    .phone-case {
-        transform: scale(0.9);
-        margin-top: -20px;
-    }
-}
-
-@media (max-height: 700px) {
-    .phone-case {
-        transform: scale(0.85);
-        margin-top: -30px;
-    }
-}
-
-@media (max-height: 600px) {
-    .phone-case {
-        transform: scale(0.75);
-        margin-top: -50px;
-    }
-}
-
-/* Ensure the screen stays centered and sharp */
-.nokia-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    box-shadow: 0 5px 0 #000;
+    transition: transform 0.05s, box-shadow 0.05s;
+    touch-action: manipulation;
+}
+
+.ctrl-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 #000;
+}
+
+.ctrl-btn.ok {
+    width: 90px;
+    height: 90px;
+    background: var(--accent-blue);
+    font-weight: bold;
+    font-size: 1.3rem;
+    border-radius: 20px;
+    box-shadow: 0 5px 0 #004085;
+}
+
+.ctrl-btn.ok:active {
+    box-shadow: 0 2px 0 #004085;
+}
+
+.ctrl-btn.speed-down,
+.ctrl-btn.speed-up {
+    width: 60px;
+    height: 45px;
+    background: #444;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 12px;
+    box-shadow: 0 4px 0 #222;
+}
+
+.ctrl-btn.speed-up {
+    background: #4a4a4a;
+}
+
+.ctrl-btn.speed-down:active,
+.ctrl-btn.speed-up:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #000;
+}
+
+/* Landscape Mode Adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    .game-container {
+        flex-direction: row;
+        max-width: none;
+    }
+
+    .controls {
+        width: 40%;
+        height: 100%;
+        border-top: none;
+        border-left: 2px solid #333;
+    }
+
+    .ctrl-btn {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Mobile-Specific Tweaks */
+@media (max-width: 480px) {
+    .ctrl-btn {
+        width: 80px;
+        height: 80px;
+    }
+
+    .ctrl-btn.ok {
+        width: 100px;
+        height: 100px;
+    }
+
+    .stats {
+        font-size: 1.2rem;
+    }
 }
